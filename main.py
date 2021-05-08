@@ -22,13 +22,15 @@ def main():
     # throw quantum calculation job
     gjf_file_name = sys.argv[1]
     file_name = gjf_file_name.split('.')[-2]
-    throw_gaussian_job(gjf_file_name)
+    throw_gaussian_job(file_name)
 
     # form chk
     form_chk(file_name)
 
     # cubegen
-    # generate_cube(file_name)
+    generate_cube(file_name, 'density')
+    generate_cube(file_name, 'potential')
+
     density_file_name = file_name + '_density'
     potential_file_name = file_name + '_potential'
 
@@ -53,8 +55,8 @@ def main():
     potential_file_name = potential_file_name + '_crystal'
 
     # padding
-    padding_image(density_file_name)
-    padding_image(potential_file_name)
+    # padding_image(density_file_name)
+    # padding_image(potential_file_name)
 
     # mrcImageFFT
     fft(density_file_name)
@@ -75,6 +77,8 @@ def main():
     # R factor calculation
     calculate_r_factor(params.f_obs_file_path, density_file_name)
     calculate_r_factor(params.f_obs_file_path, potential_file_name)
+
+    print('finish pycroED'+gjf_file_name)
 
 
 def setup():

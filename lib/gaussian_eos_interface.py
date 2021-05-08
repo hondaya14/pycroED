@@ -1,6 +1,7 @@
-
+from .util import *
 
 def cube_preprocessor(file_name):
+    if file_exist(file_name + '.pcube'): return
     print('cube file processing: ' + file_name + '.cube -> ' + file_name + '.pcube')
     with open(file_name+'.cube', mode='r') as gcf, open(file_name+'.pcube', mode='w') as pf:
         lines = [s.strip() for s in gcf.readlines()]

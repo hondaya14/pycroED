@@ -1,7 +1,9 @@
 from .util import *
 
 
-def throw_gaussian_job(gjf_file_name):
+def throw_gaussian_job(file):
+    if file_exist(file+'.log'): return
+    gjf_file_name = file + '.gjf'
     print('\nGaussian job start:' + '\t' + current_time())
     try:
         if gjf_file_name.split('.')[-1] != 'gjf':

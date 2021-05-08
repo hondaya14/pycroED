@@ -1,7 +1,9 @@
 import subprocess
+from .util import *
 
 
 def array2mrc(file_name):
+    if file_exist(file_name + '.mrc'): return
     result = subprocess.run(['head', '-6', file_name+'.cube'], stdout=subprocess.PIPE).stdout.decode()
     lines = result.split('\n')
     x_length = str(bohr2angstrom(float(lines[3].split()[1])))
@@ -20,6 +22,7 @@ def bohr2angstrom(bohr):
 
 
 def cut_unitcell_from_cube(file_name, params):
+    if file_exist(file_name + '_unitcell.mrc'): return
     # acetaminophen parameter
     lattice_vector_a = params.lattice_vector[0]
     lattice_vector_b = params.lattice_vector[1]
@@ -41,6 +44,7 @@ def cut_unitcell_from_cube(file_name, params):
 
 
 def crystal_create(file_name, params):
+    if file_exist(file_name + '_crystal.mrc'): return
     # acetaminophen parameter
     lattice_vector_a = params.lattice_vector[0]
     lattice_vector_b = params.lattice_vector[1]
@@ -77,6 +81,7 @@ def padding_image(file_name):
 
 
 def fft(file_name):
+    if file_exist(file_name + '.fft'): return
     mrc_image_fft_command = ['mrcImageFFT', '-i', file_name+'.mrc', '-o', file_name+'.fft']
     print(' '.join(mrc_image_fft_command))
     subprocess.call(mrc_image_fft_command)
@@ -84,7 +89,8 @@ def fft(file_name):
 
 
 def fft_expression(file_name):
-    mrc_fft_expression_command = ['mrcFFTExpression', '-i', file_name+'.fft', '-o', file_name+'amp',
+    if file_exist(file_name + '.amp'): return
+    mrc_fft_expression_command = ['mrcFFTExpression', '-i', file_name+'.fft', '-o', file_name+'.amp',
                                   '-m', '0']
     print(' '.join(mrc_fft_expression_command))
     subprocess.call(mrc_fft_expression_command)
@@ -92,7 +98,8 @@ def fft_expression(file_name):
 
 
 def mrc2ascii(file_name):
-    mrc2ascii_command = ['mrc2ascii', '-i', file_name+'amp', '-o', file_name+'.ampascii']
+    if file_exist(file_name + '.ampascii'): return
+    mrc2ascii_command = ['mrc2ascii', '-i', file_name+'.amp', '-o', file_name+'.ampascii']
     print(' '.join(mrc2ascii_command))
     subprocess.call(mrc2ascii_command)
     print()

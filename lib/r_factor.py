@@ -1,6 +1,7 @@
 import re
 import numpy as np
 import subprocess
+from .util import *
 
 
 # pick up Fcalc at Fobs index; h, k, l
@@ -8,6 +9,7 @@ import subprocess
 #   ↓
 # h,k,l   ->   Fcalc(h,k,l)
 def pick_up_hkl(fobs_file_name, fcalc_file_name):
+    if file_exist(fcalc_file_name + '.hkl'): return
     print('pick up hkl...')
     fobs_file = fobs_file_name
     fcalc_file = fcalc_file_name + '.ampascii'
@@ -135,6 +137,8 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
 
 
 def calculate_r_factor(fobs_file_name, fcalc_file_name):
+    if file_exist('result_' + fcalc_file_name + '.txt'): return
+    print('calculating R factor...')
     # calculation phase
     with open('result_' + fcalc_file_name + '.txt', mode='w') as rf, \
             open(fobs_file_name, mode='r') as fof, \
