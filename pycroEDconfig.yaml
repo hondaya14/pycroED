@@ -1,0 +1,10 @@
+# pycroED calculation config
+
+calc_type       : "both"
+lattice_vector  :
+    a : [0, 0, 0]
+    b : [0, 0, 0]
+    c : [0, 0, 0]
+start           : [0, 0, 0]
+crystal_size    : [1, 1, 1]
+f_obs_file_path : "./Fobs.hkl"

@@ -11,7 +11,7 @@ def throw_gaussian_job(gjf_file_name):
         print('type gaussian job file')
         exit(1)
     
-    # subprocess.call(['g16', gjf_file_name])
+    subprocess.call(['g16', gjf_file_name])
     print('Gaussian job end:' + '\t' + current_time() + '\n')
 
     file_name = gjf_file_name.split('.')[-2]
