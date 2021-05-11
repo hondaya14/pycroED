@@ -10,13 +10,16 @@ This program is refinement tool for microED. pycroED automates Gaussian and Eos 
 1. Throw Gaussian job
 2. Result file processing
 3. Generate electron density & electrostatic potential cube file
-4. Generate mrc file
-5. Make crystal
-6. Padding
-7. FFT
-8. Output ascii file
-9. Pick up the value at the reciprocal lattice point
-10. calculate R factor
+4. Generate cube mrc file
+5. Generate unitcell mrc file
+6. Generate crystal mrc file
+7. Resize crystal mrc size(x, y, z) to even if odd for fft
+8. FFT
+9. Expression amplitude
+10. Output ascii file
+11. Pick up the value at the reciprocal lattice point
+12. calculate R factor
+13. generate result file <a href="#result_example">(example)</a>
 
 ### Configuration
 in pycroEDSetting.yaml
@@ -41,7 +44,12 @@ start           : [14, 11, 9]
 crystal_size    : [9, 6, 5]
 ```
 
-### Result
+#### Determination start voxel
+- generate [ project ].mrc ( = cube mrc)
+- generate [ project ]_unitcell.mrc ( = unitcell mrc)
+- start = (cube - unitcell) / 2
+
+### <p id="result_example">Result</p>
 project.txt
 ```yaml
 project               : project file name

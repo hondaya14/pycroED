@@ -1,5 +1,6 @@
 import subprocess
 from .util import *
+import re
 
 
 def array2mrc(file_name):
@@ -80,9 +81,26 @@ def padding_image(file_name):
     print()
 
 
+def resize_even_size(file_name):
+    if file_exist(file_name + '_rsz.mrc'): return
+    result = subprocess.run(['mrcInfo', '-i',  file_name + '.mrc'], stdout=subprocess.PIPE).stdout.decode()
+    lines = result.split('\n')
+    mrc_size_list = list(map(int, (re.sub(r"[(N:) ]", "", lines[0])).split(',')))
+    x, y, z = mrc_size_list[0], mrc_size_list[1], mrc_size_list[2]
+    if x % 2: x -= 1
+    if y % 2: y -= 1
+    if z % 2: z -= 1
+
+    mrc_image_roi_3d = ['mrcImageROI3D', '-i', file_name+'.mrc', '-o', file_name+'_rsz.mrc',
+                        '-x', '0', str(x), '-y', '0', str(y), '-z', '0', str(z)]
+    print(' '.join(mrc_image_roi_3d))
+    subprocess.call(mrc_image_roi_3d)
+    print()
+
+
 def fft(file_name):
     if file_exist(file_name + '.fft'): return
-    mrc_image_fft_command = ['mrcImageFFT', '-i', file_name+'.mrc', '-o', file_name+'.fft']
+    mrc_image_fft_command = ['mrcImageFFT', '-i', file_name+'_rsz.mrc', '-o', file_name+'.fft']
     print(' '.join(mrc_image_fft_command))
     subprocess.call(mrc_image_fft_command)
     print()

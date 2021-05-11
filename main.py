@@ -58,6 +58,10 @@ def main():
     # padding_image(density_file_name)
     # padding_image(potential_file_name)
 
+    # resize even size for FFT
+    resize_even_size(density_file_name)
+    resize_even_size(potential_file_name)
+
     # mrcImageFFT
     fft(density_file_name)
     fft(potential_file_name)

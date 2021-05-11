@@ -133,7 +133,7 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
 
             except IndexError:
                 print('\t{0}\t{1}\t{2}\t{3}'.format(h, k, l, "out of range"), flush=True)
-    print('picked up')
+    print('picked up\n')
 
 
 def calculate_r_factor(fobs_file_name, fcalc_file_name):
@@ -151,6 +151,8 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
         # R variable
         sum_f_obs_all, sum_f_calc_all, sum_fo_fc_diff_all = 0, 0, 0
         sum_f_obs_gt, sum_f_calc_gt, sum_fo_fc_diff_gt = 0, 0, 0
+        sum_f_obs_x_f_calc_all, sum_f_obs_x_f_calc_gt = 0, 0
+        sum_f_calc_power_all, sum_f_calc_power_gt = 0, 0
         all_cnt, gt_cnt = 0, 0
 
         # read
@@ -172,34 +174,49 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
             hkl_all_list.append([h, k, l, f_obs_value, f_calc_value])
             sum_f_obs_all += abs(f_obs_value)
             sum_f_calc_all += abs(f_calc_value)
+            sum_f_obs_x_f_calc_all += abs(f_obs_value) * abs(f_calc_value)
+            sum_f_calc_power_all += f_calc_value * f_calc_value
             all_cnt += 1
             # gt
             if f_obs_value_squared > 2 * f_sigma_squared:
                 hkl_gt_list.append([h, k, l, f_obs_value, f_calc_value])
                 sum_f_obs_gt += abs(f_obs_value)
                 sum_f_calc_gt += abs(f_calc_value)
+                sum_f_obs_x_f_calc_gt += abs(f_obs_value) * abs(f_calc_value)
+                sum_f_calc_power_gt += f_calc_value * f_calc_value
                 gt_cnt += 1
 
-        # scaling
-        s_all = sum_f_obs_all / sum_f_calc_all
-        s_gt = sum_f_obs_gt / sum_f_calc_gt
+        # scaling　ー G
+        s_all = sum_f_obs_x_f_calc_all / sum_f_calc_power_all
+        s_gt = sum_f_obs_x_f_calc_gt / sum_f_calc_power_gt
 
-        for hal in hkl_all_list:
-            h, k, l, fobs, fcalc = hal[0], hal[1], hal[2], hal[3], hal[4]
-            sum_fo_fc_diff_all += abs(fobs - s_all * fcalc)
-
-        for hgl in hkl_gt_list:
-            h, k, l, fobs, fcalc = hgl[0], hgl[1], hgl[2], hgl[3], hgl[4]
-            sum_fo_fc_diff_gt += abs(fobs - s_gt * fcalc)
-
-        r_factor_all = sum_fo_fc_diff_all / sum_f_obs_all
-        r_factor_gt = sum_fo_fc_diff_gt / sum_f_obs_gt
+        s_all, s_gt = 0.001, 0.001
+        min_r_all, min_r_gt = 1, 1
+        s = 0
+        for i in range(10001):
+            sum_fo_fc_diff_all, sum_fo_fc_diff_gt = 0, 0
+            for hal in hkl_all_list:
+                h, k, l, fobs, fcalc = hal[0], hal[1], hal[2], hal[3], hal[4]
+                sum_fo_fc_diff_all += abs(fobs - s * fcalc)
+            r_factor_all = sum_fo_fc_diff_all / sum_f_obs_all
+            min_r_all = min(r_factor_all, min_r_all)
+            if min_r_all == r_factor_all:
+                s_all = s
+            for hgl in hkl_gt_list:
+                h, k, l, fobs, fcalc = hgl[0], hgl[1], hgl[2], hgl[3], hgl[4]
+                sum_fo_fc_diff_gt += abs(fobs - s * fcalc)
+            r_factor_gt = sum_fo_fc_diff_gt / sum_f_obs_gt
+            min_r_gt = min(r_factor_gt, min_r_gt)
+            if min_r_gt == r_factor_gt:
+                s_gt = s
+            s += 0.001
 
         rf.write('project               : ' + fcalc_file_name + '\n\n')
         rf.write('gt                    : I > 2sigma(I)\n')
         rf.write('num_of_lat_point_all  : ' + str(all_cnt) + '\n')
         rf.write('num_of_lat_point_gt   : ' + str(gt_cnt) + '\n')
-        rf.write('r_factor_all          : ' + str(r_factor_all) + '\n')
-        rf.write('r_factor_gt           : ' + str(r_factor_gt) + '\n')
-        rf.write('scale_all             : ' + str(s_all) + '\n')
-        rf.write('scale_gt              : ' + str(s_gt) + '\n')
+        rf.write('r_factor_all          : ' + '{:.4f}'.format(min_r_all) + '\n')
+        rf.write('r_factor_gt           : ' + '{:.4f}'.format(min_r_gt) + '\n')
+        rf.write('scale_all             : ' + '{:.3f}'.format(s_all) + '\n')
+        rf.write('scale_gt              : ' + '{:.3f}'.format(s_gt) + '\n')
+    print('wrote result -> result_' + fcalc_file_name + '.txt\n')
