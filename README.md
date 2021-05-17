@@ -30,6 +30,9 @@ in pycroEDSetting.yaml
 #   - potential
 calc_type       : 'both'
 
+# gaussian utility cubegen argument - cube size [default : 50]
+cube_size       : 50
+
 lattice_vector  :
     a : [7.1178, 0, 0]
     b : [0, 9.6265, 0]

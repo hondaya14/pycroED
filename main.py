@@ -28,59 +28,59 @@ def main():
     form_chk(file_name)
 
     # cubegen
-    generate_cube(file_name, 'density')
-    generate_cube(file_name, 'potential')
+    if params.is_ed: generate_cube(file_name, params, 'density')
+    if params.is_esp: generate_cube(file_name, params, 'potential')
 
     density_file_name = file_name + '_density'
     potential_file_name = file_name + '_potential'
 
     # cubepreprocess
-    cube_preprocessor(density_file_name)
-    cube_preprocessor(potential_file_name)
+    if params.is_ed: cube_preprocessor(density_file_name)
+    if params.is_esp: cube_preprocessor(potential_file_name)
 
     # array2mrc
-    array2mrc(density_file_name)
-    array2mrc(potential_file_name)
+    if params.is_ed: array2mrc(density_file_name)
+    if params.is_esp: array2mrc(potential_file_name)
 
     # cut unit cell from cube
-    cut_unitcell_from_cube(density_file_name, params)
-    cut_unitcell_from_cube(potential_file_name, params)
+    if params.is_ed: cut_unitcell_from_cube(density_file_name, params)
+    if params.is_esp: cut_unitcell_from_cube(potential_file_name, params)
 
     # mrcCrystalCreate
-    crystal_create(density_file_name, params)
-    crystal_create(potential_file_name, params)
+    if params.is_ed: crystal_create(density_file_name, params)
+    if params.is_esp: crystal_create(potential_file_name, params)
 
     # scope crystal file
-    density_file_name = density_file_name + '_crystal'
-    potential_file_name = potential_file_name + '_crystal'
+    if params.is_ed: density_file_name = density_file_name + '_crystal'
+    if params.is_esp: potential_file_name = potential_file_name + '_crystal'
 
     # padding
     # padding_image(density_file_name)
     # padding_image(potential_file_name)
 
     # resize even size for FFT
-    resize_even_size(density_file_name)
-    resize_even_size(potential_file_name)
+    if params.is_ed: resize_even_size(density_file_name)
+    if params.is_esp: resize_even_size(potential_file_name)
 
     # mrcImageFFT
-    fft(density_file_name)
-    fft(potential_file_name)
+    if params.is_ed: fft(density_file_name)
+    if params.is_esp: fft(potential_file_name)
 
     # mrcFFTExpression
-    fft_expression(density_file_name)
-    fft_expression(potential_file_name)
+    if params.is_ed: fft_expression(density_file_name)
+    if params.is_esp: fft_expression(potential_file_name)
 
     # mrc2ascii
-    mrc2ascii(density_file_name)
-    mrc2ascii(potential_file_name)
+    if params.is_ed: mrc2ascii(density_file_name)
+    if params.is_esp: mrc2ascii(potential_file_name)
 
     # pickup hkl
-    pick_up_hkl(params.f_obs_file_path, density_file_name)
-    pick_up_hkl(params.f_obs_file_path, potential_file_name)
+    if params.is_ed: pick_up_hkl(params.f_obs_file_path, density_file_name)
+    if params.is_esp: pick_up_hkl(params.f_obs_file_path, potential_file_name)
 
     # R factor calculation
-    calculate_r_factor(params.f_obs_file_path, density_file_name)
-    calculate_r_factor(params.f_obs_file_path, potential_file_name)
+    if params.is_ed: calculate_r_factor(params.f_obs_file_path, density_file_name)
+    if params.is_esp: calculate_r_factor(params.f_obs_file_path, potential_file_name)
 
     print('finish pycroED'+gjf_file_name)
 

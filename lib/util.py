@@ -34,6 +34,7 @@ def setting_params():
             obj['lattice_vector']['b'],
             obj['lattice_vector']['c'],
         ]
+        params.cube_size = obj['cube_size']
         params.start = obj['start']
         params.crystal_size = obj['crystal_size']
         params.f_obs_file_path = obj["f_obs_file_path"]

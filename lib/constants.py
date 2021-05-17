@@ -9,6 +9,7 @@ class PycroEDSetting:
     calc_type = ''  # density, potential, both
     is_ed = False  # calculate electron density series
     is_esp = True  # calculate electrostatic potential series
+    cube_size = 0
     lattice_vector = []  # ax3, bx3, cx3
     start = []  # x, y, c
     crystal_size = []

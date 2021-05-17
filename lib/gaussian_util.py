@@ -10,10 +10,10 @@ def form_chk(file_name):
     print('')
 
 
-def generate_cube(file_name, calc_type):
+def generate_cube(file_name, params, calc_type):
     if file_exist(file_name + '_' + calc_type + '.cube'): return
     # generate cube file (3D: cube_file_size^3)
-    cube_file_size = 100
+    cube_file_size = params.cube_size
 
     generate_density_cube_command = \
         ['cubegen', '0', calc_type, file_name+'.fchk', file_name + '_' + calc_type + '.cube', str(cube_file_size)]
