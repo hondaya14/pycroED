@@ -2,7 +2,7 @@
 This program is refinement tool for microED. pycroED automates Gaussian and Eos commands used in the refinement process.
 
 ### Environment
-- python 3.6.9
+- python ^3.8.0
 - Gaussian (Quantum calculation software)
 - Eos (Image processing software)
 
