@@ -101,6 +101,9 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
                             k * reciprocal_lattice_vector_b + \
                             l * reciprocal_lattice_vector_c
 
+            # フーリエ空間での中心からの距離
+            r = np.sqrt(np.power(fourier_coord[0])+np.power(fourier_coord[1])+np.power(fourier_coord[2]))
+
             # 特定のhklの点が対応するボクセルの座標()
             target_voxel_x = round(fourier_coord[0] / voxel_unit_length_x) + center[0]
             target_voxel_y = round(fourier_coord[1] / voxel_unit_length_y) + center[1]
@@ -127,8 +130,8 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
                 # )
 
                 # distance 無し
-                fcf.write('\t{0}\t{1}\t{2}\t{3:.6f}\n'.format(
-                    h, k, l, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
+                fcf.write('\t{0}\t{1}\t{2}\t{3}\t{4:.6f}\n'.format(
+                    h, k, l, r, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
                 )
 
             except IndexError:
