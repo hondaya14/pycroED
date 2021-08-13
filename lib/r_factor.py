@@ -102,7 +102,7 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
                             l * reciprocal_lattice_vector_c
 
             # フーリエ空間での中心からの距離
-            r = np.sqrt(np.power(fourier_coord[0])+np.power(fourier_coord[1])+np.power(fourier_coord[2]))
+            r = np.sqrt(np.power(fourier_coord[0], 2)+np.power(fourier_coord[1], 2)+np.power(fourier_coord[2], 2))
 
             # 特定のhklの点が対応するボクセルの座標()
             target_voxel_x = round(fourier_coord[0] / voxel_unit_length_x) + center[0]
