@@ -190,8 +190,8 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
                 gt_cnt += 1
 
         # scaling　ー G
-        s_all = sum_f_obs_x_f_calc_all / sum_f_calc_power_all
-        s_gt = sum_f_obs_x_f_calc_gt / sum_f_calc_power_gt
+        # s_all = sum_f_obs_x_f_calc_all / sum_f_calc_power_all
+        # s_gt = sum_f_obs_x_f_calc_gt / sum_f_calc_power_gt
 
         s_all, s_gt = 0.001, 0.001
         min_r_all, min_r_gt = 1, 1
