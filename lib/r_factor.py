@@ -166,7 +166,7 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
             f_calc_clisalis_value_squared, f_obs_value_squared, f_sigma_squared \
                 = float(obs_line_list[3]), float(obs_line_list[4]), float(obs_line_list[5])
 
-            f_calc_value = float(calc_line_list[3])
+            f_calc_value = float(calc_line_list[4])
             f_obs_value = 0 if f_obs_value_squared < 0 else np.sqrt(f_obs_value_squared)
 
             # test
