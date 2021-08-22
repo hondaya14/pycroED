@@ -200,6 +200,7 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
             sum_fo_fc_diff_all, sum_fo_fc_diff_gt = 0, 0
             for hal in hkl_all_list:
                 h, k, l, fobs, fcalc = hal[0], hal[1], hal[2], hal[3], hal[4]
+                if i==1: print(fobs, fcalc)
                 sum_fo_fc_diff_all += abs(fobs - s * fcalc)
             r_factor_all = sum_fo_fc_diff_all / sum_f_obs_all
             min_r_all = min(r_factor_all, min_r_all)
