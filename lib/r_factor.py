@@ -83,12 +83,14 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
     #     reciprocal_lattice_vector_c
     # ])
 
-
     # hkl.insert(0, [0, 0, 0])
     with open(fcalc_file_name+'_all.hkl', mode='w') as fc_all_f, open(fcalc_file_name+'_gt.hkl', mode='w') as fc_gt_f, open(fobs_file, mode='r') as hrf:
         hl = hrf.readlines()
         for lines in hl:
-            h, k, l, fc_squared, fo_squared, f_sigma_squared, *value = map(float, lines.split())
+            try:
+                h, k, l, fc_squared, fo_squared, f_sigma_squared, *value = map(float, lines.split())
+            except ValueError:
+                pass
             h, k, l = int(h), int(k), int(l)
 
             # referenceで読み込んだh,k,lに対応するフーリエ空間の座標
