@@ -9,7 +9,7 @@ from .util import *
 #   ↓
 # h,k,l   ->   Fcalc(h,k,l)
 def pick_up_hkl(fobs_file_name, fcalc_file_name):
-    if file_exist(fcalc_file_name + '.hkl'): return
+    if file_exist(fcalc_file_name + '_all.hkl') and file_exist(fcalc_file_name + '_gt.hkl'): return
     print('pick up hkl...')
     fobs_file = fobs_file_name
     fcalc_file = fcalc_file_name + '.ampascii'
@@ -143,9 +143,9 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
     if file_exist('result_' + fcalc_file_name + '.txt'): return
     print('calculating R factor...')
     # calculation phase
-    with open('result_' + fcalc_file_name + '_all.txt', mode='w') as rf, \
+    with open('result_' + fcalc_file_name + '.txt', mode='w') as rf, \
             open(fobs_file_name, mode='r') as fof, \
-            open(fcalc_file_name+'.hkl', mode='r') as fcf:
+            open(fcalc_file_name+'_all.hkl', mode='r') as fcf:
 
         obs_lines, calc_lines = fof.readlines(), fcf.readlines()
 
