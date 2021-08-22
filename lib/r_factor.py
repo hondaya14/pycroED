@@ -87,11 +87,9 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
     with open(fcalc_file_name+'_all.hkl', mode='w') as fc_all_f, open(fcalc_file_name+'_gt.hkl', mode='w') as fc_gt_f, open(fobs_file, mode='r') as hrf:
         hl = hrf.readlines()
         for lines in hl:
-            try:
-                h, k, l, fc_squared, fo_squared, f_sigma_squared, *value = map(float, lines.split())
-            except ValueError:
-                pass
-            h, k, l = int(h), int(k), int(l)
+            h, k, l, fc_squared, fo_squared, f_sigma_squared, *value = lines.split()
+            h, k, l, fc_squared, fo_squared, f_sigma_squared = \
+                int(h), int(k), int(l), float(fc_squared), float(fo_squared), float(f_sigma_squared)
 
             # referenceで読み込んだh,k,lに対応するフーリエ空間の座標
             fourier_coord = h * reciprocal_lattice_vector_a + \
