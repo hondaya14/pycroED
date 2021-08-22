@@ -127,11 +127,11 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
                 # gt
                 if fo_squared > 2 * f_sigma_squared:
                     fc_gt_f.write('\t{0}\t{1}\t{2}\t{3:.4}\t{4}\t{5:.6f}\n'.format(
-                        h, k, l, r, fo_squared, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
+                        h, k, l, r, np.sqrt(fo_squared), voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
                     )
 
                 fc_all_f.write('\t{0}\t{1}\t{2}\t{3:.4}\t{4}\t{5:.6f}\n'.format(
-                    h, k, l, r, fo_squared, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
+                    h, k, l, r, np.sqrt(fo_squared), voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
                 )
 
             except IndexError:
