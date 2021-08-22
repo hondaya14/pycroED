@@ -143,7 +143,7 @@ def calculate_r_factor(fobs_file_name, fcalc_file_name):
     if file_exist('result_' + fcalc_file_name + '.txt'): return
     print('calculating R factor...')
     # calculation phase
-    with open('result_' + fcalc_file_name + '.txt', mode='w') as rf, \
+    with open('result_' + fcalc_file_name + '_all.txt', mode='w') as rf, \
             open(fobs_file_name, mode='r') as fof, \
             open(fcalc_file_name+'.hkl', mode='r') as fcf:
 
