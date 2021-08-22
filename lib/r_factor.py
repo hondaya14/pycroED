@@ -83,18 +83,13 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
     #     reciprocal_lattice_vector_c
     # ])
 
-    # hkl reference
-    hkl = []
-    with open(fobs_file, mode='r') as hrf:
-        hl = hrf.readlines()
-        for lines in hl:
-            h, k, l, *values = lines.split()
-            hkl.append([int(h), int(k), int(l)])
 
     # hkl.insert(0, [0, 0, 0])
-    with open(fcalc_file_name+'.hkl', mode='w') as fcf:
-        for e in hkl:
-            h, k, l = e[0], e[1], e[2]
+    with open(fcalc_file_name+'_all.hkl', mode='w') as fc_all_f, open(fcalc_file_name+'_gt.hkl', mode='w') as fc_gt_f, open(fobs_file, mode='r') as hrf:
+        hl = hrf.readlines()
+        for lines in hl:
+            h, k, l, fc_squared, fo_squared, f_sigma_squared = map(float, lines.split())
+            h, k, l = int(h), int(k), int(l)
 
             # referenceで読み込んだh,k,lに対応するフーリエ空間の座標
             fourier_coord = h * reciprocal_lattice_vector_a + \
@@ -129,8 +124,13 @@ def pick_up_hkl(fobs_file_name, fcalc_file_name):
                 #   h, k, l, distance, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z]), flush=True
                 # )
 
-                # distance 無し
-                fcf.write('\t{0}\t{1}\t{2}\t{3}\t{4:.6f}\n'.format(
+                # gt
+                if fo_squared > 2 * f_sigma_squared:
+                    fc_gt_f.write('\t{0}\t{1}\t{2}\t{3}\t{4:.6f}\n'.format(
+                        h, k, l, r, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
+                    )
+
+                fc_all_f.write('\t{0}\t{1}\t{2}\t{3}\t{4:.6f}\n'.format(
                     h, k, l, r, voxel_data[target_voxel_x][target_voxel_y][target_voxel_z])
                 )
 
