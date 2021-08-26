@@ -17,7 +17,7 @@ This program is refinement tool for microED. pycroED automates Gaussian and Eos 
 8. FFT
 9. Expression amplitude
 10. Output ascii file
-11. Pick up the value at the reciprocal lattice point
+11. Pick up the value at the reciprocal lattice point (generate hkl file)
 12. calculate R factor
 13. generate result file <a href="#result_example">(example)</a>
 
