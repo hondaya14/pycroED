@@ -52,7 +52,15 @@ crystal_size    : [9, 6, 5]
 - generate [ project ]_unitcell.mrc ( = unitcell mrc)
 - start = (cube - unitcell) / 2
 
-### <p id="result_example">Result</p>
+
+## Output file format
+### hkl file
+``` text
+h   k   l   r   Fobs    Fcalc
+```
+r is distance in reciprocal space from the center.
+
+### <p id="result_example">Result file</p>
 project.txt
 ```yaml
 project               : project file name
